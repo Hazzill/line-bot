@@ -13,11 +13,11 @@
     <form class="w-75 mx-auto">
    	       <p class="mt-3"></p>
      <div>
-	<label for="datetime">วันที่และเวลา:</label>
- 	 <input type="datetime-local" id="datetime" name="datetime">
+	 <label for="datetime">วันที่และเวลา:</label>
+  	<input type="datetime-local" id="datetime" name="datetime">
 
 	  <script>
-	    const input = document.querySelector("#datetime");
+	    // Get the current date and time in the Bangkok time zone
 	    const now = new Date();
 	    const options = {
 	      year: 'numeric',
@@ -28,8 +28,10 @@
 	      hour12: false,
 	      timeZone: 'Asia/Bangkok'
 	    };
-	    const formattedDateTime = now.toLocaleString('th-TH', options).replace(',','');
-	    input.value = formattedDateTime;
+	    const formattedDateTime = now.toLocaleString('en-GB', options).replace(',', '');
+
+	    // Set the value of the input field to the current date and time
+	    document.getElementById("datetime").value = formattedDateTime;
 	  </script>
 		
         </div>
