@@ -85,7 +85,7 @@
                 const quantity  = $('input[name="quantity"]').val();
                 const price = $('input[name="price"]').val();
 		const note    = $('textarea[name="note"]').val();
-                const msg     = `${date}\n${name}\n${customer}\n${product}\n${quantity}\n${price}\n${note}`;
+                const msg     = `${name}\n${customer}\n${product}\n${quantity}\n${price}\n${note}`;
                 sendText(msg);
                 return false;
             });
