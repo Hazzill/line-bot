@@ -13,10 +13,11 @@
     <form class="w-75 mx-auto">
    	       <p class="mt-3"></p>
      <div>
-	 <label for="datetime">วันที่และเวลา:</label>
+	<label for="datetime">วันที่และเวลา:</label>
  	 <input type="datetime-local" id="datetime" name="datetime">
 
 	  <script>
+	    const input = document.querySelector("#datetime");
 	    const now = new Date();
 	    const options = {
 	      year: 'numeric',
@@ -28,7 +29,7 @@
 	      timeZone: 'Asia/Bangkok'
 	    };
 	    const formattedDateTime = now.toLocaleString('th-TH', options).replace(',','');
-	    document.querySelector("#datetime").value = formattedDateTime;
+	    input.value = formattedDateTime;
 	  </script>
 		
         </div>
