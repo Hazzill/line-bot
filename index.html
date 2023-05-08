@@ -12,7 +12,7 @@
 
     <form class="w-75 mx-auto">
    	      
-        <p class="mt-3">รหัสผู้ขาย</p>
+        <p class="mt-3">ผู้แทนขาย</p>
         <div>
             <input class="form-control w-100 mt-1" name="SellerID" placeholder="" required>
         </div>
@@ -20,10 +20,14 @@
         <div>
             <input class="form-control w-100 mt-1" name="customer" required>
         </div>
-        <p class="mt-3">รายการสินค้า</p>
+        <p class="mt-3">จังหวัด</p>
+        <div>
+            <input class="form-control w-100 mt-1" name="province" required>
+        </div>
+	<p class="mt-3">รายการสินค้า</p>
         <div>
             <input class="form-control w-100 mt-1" name="product" required>
-        </div>
+        </div>    
         <p class="mt-3">จำนวน</p>
         <div>
             <input type="number" class="form-control w-100 mt-1" name="quantity" required>
@@ -79,13 +83,14 @@
         $(function () {
             $('form').submit(function () {
                
-                const name    = $('input[name="SellerID"]').val();
+                const name     = $('input[name="SellerID"]').val();
                 const customer = $('input[name="customer"]').val();
+		const province = $('input[name="province"]').val();
                 const product  = $('input[name="product"]').val();
-                const quantity  = $('input[name="quantity"]').val();
-                const price = $('input[name="price"]').val();
-		const note    = $('textarea[name="note"]').val();
-                const msg     = `${name}\n${customer}\n${product}\n${quantity}\n${price}\n${note}`;
+		const quantity = $('input[name="quantity"]').val();
+                const price    = $('input[name="price"]').val();
+		const note     = $('textarea[name="note"]').val();
+                const msg      = `${name}\n${customer}\n${province}\n${product}\n${quantity}\n${price}\n${note}`;
                 sendText(msg);
                 return false;
             });
