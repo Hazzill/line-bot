@@ -1,45 +1,38 @@
-
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบสั่งสินค้าผ่าน Line OA</title>
+    <title>Form Gis</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
 </head>
 <body class="bg-light">
-
-    <form class="card p-2">   	      
-        <p class="mt-3">ผู้แทนขาย</p>
-        <div>
-            <input class="form-control w-100 mt-1" name="SellerID" placeholder="" required>
+    <form class="container" style="padding: 20px;">  
+        <div class="row">
+            <label class="col-3 p-2 col-form-label col-form-label-sm">ผู้แทนขาย</label>
+            <input class="form-control col-4 m-2" name="SellerID" placeholder="" required>
         </div>
-        <p class="mt-3">ลูกค้า</p>
-        <div>
-            <input class="form-control w-100 mt-1" name="customer" required>
+        <div class="row">
+            <label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
+            <input class="form-control col-8  m-2" name="customer" placeholder="" required>
+            <label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
+            <input class="form-control col-8  m-2" name="province" placeholder="" required>
+            <label class="col-3 p-2 col-form-label col-form-label-sm">รายการสินค้า</label>
+            <input class="form-control col-8  m-2" name="disc" placeholder="" required>
         </div>
-        <p class="mt-3">จังหวัด</p>
-        <div>
-            <input class="form-control w-100 mt-1" name="province" required>
+        <div class="row p2">
+            <label class="col-2 p-2 col-form-label col-form-label-sm">จำนวน</label>
+            <input class="form-control col-3  m-2" name="quantity" placeholder="" required>
+            <label class="col-2 p-2 col-form-label col-form-label-sm">แถม</label>
+            <input class="form-control col-3  m-2" name="gifs" placeholder="" required>
+            <label class="col-2 p-2 col-form-label col-form-label-sm">ราคา</label>
+            <input class="form-control col-3  m-2" name="price" placeholder="" required>
+            <label class="col-2 p-2 col-form-label col-form-label-sm">ส่วนลด</label>
+            <input class="form-control col-3  m-2" name="price" placeholder="" required>
+            <label class="col-2 p-2 col-form-label col-form-label-sm">หมายเหตุ</label>
+            <textarea class="form-control col-12" name="note" > </textarea>
         </div>
-	<p class="mt-3">รายการสินค้า</p>
-        <div>
-            <input class="form-control w-100 mt-1" name="product" required>
-        </div>    
-        <p class="mt-3">จำนวน</p>
-        <div>
-            <input type="number" class="form-control w-100 mt-1" name="quantity" required>
-        </div>
-        <p class="mt-3">ราคาขาย</p>
-        <div>
-            <input type="number" class="form-control w-100 mt-1" name="price" required>
-        </div>
-	<p class="mt-3">หมายเหตุ</p>
-        <div >			
-            <textarea class="form-control w-100 mt-1" name="note" > </textarea>
-        </div>
-
         <input type="submit" class="mt-4 btn btn-success" value="บันทึกการสั่งซื้อ">
     </form>
 
@@ -87,9 +80,11 @@
 		const province = $('input[name="province"]').val();
                 const product  = $('input[name="product"]').val();
 		const quantity = $('input[name="quantity"]').val();
+                const gifs     = $('input[name="gifs"]').val();
                 const price    = $('input[name="price"]').val();
+                const disc     = $('input[name="disc"]').val();
 		const note     = $('textarea[name="note"]').val();
-                const msg      = `${name}\n${customer}\n${province}\n${product}\n${quantity}\n${price}\n${note}`;
+                const msg      = `${name}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${note}`;
                 sendText(msg);
                 return false;
             });
