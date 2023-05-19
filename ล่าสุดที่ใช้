@@ -1,8 +1,7 @@
-const LINE_TOKEN = 'VpMkaVaNCwOaejC92asChDiA7vFSiodHuCaAyr3S9JYXJs0bWaqMLTDceK/Xm+9oBYnf+AY6IMJMCx8RDHLsmeVzVjahrwJdm3p2cmQcVX0reYthq0uMRii9VR1G54cR0xfyq2KnGe1FuVm9MQhqyQdB04t89/1O/w1cDnyilFU=';
+const LINE_TOKEN = 'E6sXMQiKKnbAXECPY55mSTw1zA6SsoDTzgCqzpvDjPmbUlDBQSofNOUK6HkMRUcDBYnf+AY6IMJMCx8RDHLsmeVzVjahrwJdm3p2cmQcVX3AnjAkzS9kkFxGI02rjQECUZ6Ky+DQ+n1R9wGCDxnwhgdB04t89/1O/w1cDnyilFU=';
 const LINE_URL = 'https://api.line.me/v2/bot/message/reply';
 
 function doPost(e) {
-  // ตรวจสอบว่าเป็นข้อความและเป็นข้อความประเภท "text" หรือไม่
   if (JSON.parse(e.postData.contents).events[0].type !== "message" || JSON.parse(e.postData.contents).events[0].message.type !== "text") {
     return;
   }
@@ -10,14 +9,12 @@ function doPost(e) {
   const userId = JSON.parse(e.postData.contents).events[0].source.userId;
   const userMessage = JSON.parse(e.postData.contents).events[0].message.text;
   
-  // ตรวจสอบว่าข้อความมีการเว้นบรรทัดหรือไม่
   if (!userMessage.includes("\n")) {
     return;
   }
   const all_msg = userMessage.split("\n");
   const msg_num = all_msg.length;
   const messages = [];
-
   const sheet = SpreadsheetApp.getActiveSpreadsheet();
   const listSheet = sheet.getSheetByName("Order");
   const numColumn = listSheet.getLastColumn();
@@ -28,7 +25,6 @@ function doPost(e) {
   const data = dataRange.getValues();
   const dataNum = data.length + 2;
 
-  // บันทึกข้อมูลลงในแผ่นงาน
   for (let i = 0; i < msg_num; i++) {
     listSheet.getRange(dataNum, i + 1).setValue(all_msg[i]);
   }
@@ -38,12 +34,9 @@ function doPost(e) {
   listSheet.getRange(dataNum, msg_num + 1).setValue(timestampString);
   listSheet.getRange(dataNum, msg_num + 2).setValue(userId);
   
-  // ดึงข้อมูลโปรไฟล์ของผู้ใช้
   const userProfile = getUserProfile(userId);
   const userName = userProfile.displayName || 'User';
-  
-    // สร้างข้อความตอบกลับ
-  const replyMessage = `[สวัสดีคุณ] ${userName}\n บันทึกรายการสั่งซื้อเรียบร้อยค่ะ`;
+  const replyMessage = `สวัสดีคุณ ${userName}\n บันทึกรายการสั่งซื้อเรียบร้อยค่ะ`;
 
   const after_msg = {
     "type": "text",
@@ -51,7 +44,6 @@ function doPost(e) {
   };
   messages.push(after_msg);
 
-  // ส่งข้อความตอบกลับไปยัง LINE
   UrlFetchApp.fetch(LINE_URL, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -66,18 +58,34 @@ function doPost(e) {
 
   ContentService.createTextOutput(JSON.stringify({ 'content': 'post ok' })).setMimeType(ContentService.MimeType.JSON);
 }
+
 function getUserProfile(userId) {
   const url = `https://api.line.me/v2/bot/profile/${userId}`;
 
-// เรียกข้อมูลโปรไฟล์ผู้ใช้จาก LINE API
-  const response = UrlFetchApp.fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${LINE_TOKEN}`
-    },
-    method: 'get'
-  });
+    const response = UrlFetchApp.fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${LINE_TOKEN}`
+      },
+      method: 'get'
+    });
 
-  const userProfile = JSON.parse(response.getContentText());
-  return userProfile;
+
+const userProfile = JSON.parse(response.getContentText());
+return userProfile;
+}
+
+function showOrderTable() {
+const userId = Session.getActiveUser().getEmail();
+const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Order");
+const dataRange = sheet.getDataRange();
+const dataValues = dataRange.getValues();
+const filteredData = dataValues.filter(function(row) {
+return row[row.length - 1] === userId;
+});
+
+const template = HtmlService.createTemplateFromFile('sidebar');
+template.data = filteredData;
+
+const htmlOutput = template.evaluate();SpreadsheetApp.getUi().showSidebar(htmlOutput);
 }
