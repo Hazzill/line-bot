@@ -2,13 +2,15 @@ const LINE_TOKEN = 'E6sXMQiKKnbAXECPY55mSTw1zA6SsoDTzgCqzpvDjPmbUlDBQSofNOUK6HkM
 const LINE_URL = 'https://api.line.me/v2/bot/message/reply';
 
 function doPost(e) {
+  // ตรวจสอบว่าเป็นข้อความและเป็นข้อความประเภทข้อความ
   if (JSON.parse(e.postData.contents).events[0].type !== "message" || JSON.parse(e.postData.contents).events[0].message.type !== "text") {
     return;
   }
   const replyToken = JSON.parse(e.postData.contents).events[0].replyToken;
   const userId = JSON.parse(e.postData.contents).events[0].source.userId;
   const userMessage = JSON.parse(e.postData.contents).events[0].message.text;
-  
+
+  // ตรวจสอบว่าข้อความมีเครื่องหมายขึ้นบรรทัดใหม่หรือไม่
   if (!userMessage.includes("\n")) {
     return;
   }
@@ -17,7 +19,7 @@ function doPost(e) {
   const messages = [];
   const sheet = SpreadsheetApp.getActiveSpreadsheet();
   const listSheet = sheet.getSheetByName("Order");
-  const numColumn = listSheet.getLastColumn();
+  const numColumn = 10; // จำนวนคอลัมน์ที่ต้องการแสดงข้อมูลล่าสุด (A2-J)
   const numRow = listSheet.getLastRow() - 1;
   const topRange = listSheet.getRange(1, 1, 1, numColumn);
   const dataRange = listSheet.getRange(2, 1, numRow, numColumn);
@@ -25,6 +27,7 @@ function doPost(e) {
   const data = dataRange.getValues();
   const dataNum = data.length + 2;
 
+  // เพิ่มข้อมูลจากข้อความลงในแผ่นงาน
   for (let i = 0; i < msg_num; i++) {
     listSheet.getRange(dataNum, i + 1).setValue(all_msg[i]);
   }
@@ -32,18 +35,83 @@ function doPost(e) {
   const timestamp = new Date();
   const timestampString = timestamp.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' });
   listSheet.getRange(dataNum, msg_num + 1).setValue(timestampString);
-  listSheet.getRange(dataNum, msg_num + 2).setValue(userId);
-  
+  //listSheet.getRange(dataNum, msg_num + 2).setValue(userId);
+
+  // ดึงข้อมูลโปรไฟล์ผู้ใช้จาก LINE
   const userProfile = getUserProfile(userId);
   const userName = userProfile.displayName || 'User';
-  const replyMessage = `สวัสดีคุณ ${userName}\n บันทึกรายการสั่งซื้อเรียบร้อยค่ะ`;
+  const replyMessage = `สวัสดีคุณ ${userName}\nบันทึกรายการสั่งซื้อเรียบร้อยค่ะ`;
 
-  const after_msg = {
-    "type": "text",
-    "text": replyMessage
+  const latestData = data[data.length - 1];
+  const flexContents = [];
+
+  // สร้างเนื้อหา Flex Message จาก userMessage
+  const headers = ['รหัสผู้ขาย', 'ลูกค้า', 'จังหวัด', 'รายการสินค้า', 'จำนวน', 'แถม', 'ราคาขาย', 'ลด', 'หมายเหตุ'];
+
+  for (let i = 0; i < msg_num; i++) {
+    const header = headers[i];
+    const value = all_msg[i];
+
+    const item = {
+      type: "box",
+      layout: "horizontal",
+      contents: [
+        {
+          type: "text",
+          text: header,
+          size: "sm",
+          color: "#AAAAAA",
+          flex: 2
+        },
+        {
+          type: "text",
+          text: value,
+          size: "sm",
+          wrap: true,
+          flex: 4
+        }
+      ]
+    };
+
+    flexContents.push(item);
+  }
+
+  const flexMessage = {
+    type: "flex",
+    altText: "User Message",
+    contents: {
+      type: "bubble",
+      body: {
+        type: "box",
+        layout: "vertical",
+        contents: [
+          {
+            type: "text",
+            text: replyMessage,
+            wrap: true,
+            weight: "bold"
+          },
+          {
+            type: "text",
+            text: "รายละเอียด:",
+            margin: "md",
+            weight: "bold"
+          },
+          {
+            type: "box",
+            layout: "vertical",
+            margin: "md",
+            spacing: "sm",
+            contents: flexContents
+          }
+        ]
+      }
+    }
   };
-  messages.push(after_msg);
 
+  messages.push(flexMessage);
+
+  // ส่ง Flex Message กลับไปยัง LINE
   UrlFetchApp.fetch(LINE_URL, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -59,33 +127,18 @@ function doPost(e) {
   ContentService.createTextOutput(JSON.stringify({ 'content': 'post ok' })).setMimeType(ContentService.MimeType.JSON);
 }
 
+// ดึงข้อมูลโปรไฟล์ผู้ใช้จาก LINE
 function getUserProfile(userId) {
   const url = `https://api.line.me/v2/bot/profile/${userId}`;
 
-    const response = UrlFetchApp.fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${LINE_TOKEN}`
-      },
-      method: 'get'
-    });
+  const response = UrlFetchApp.fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${LINE_TOKEN}`
+    },
+    method: 'get'
+  });
 
-
-const userProfile = JSON.parse(response.getContentText());
-return userProfile;
-}
-
-function showOrderTable() {
-const userId = Session.getActiveUser().getEmail();
-const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Order");
-const dataRange = sheet.getDataRange();
-const dataValues = dataRange.getValues();
-const filteredData = dataValues.filter(function(row) {
-return row[row.length - 1] === userId;
-});
-
-const template = HtmlService.createTemplateFromFile('sidebar');
-template.data = filteredData;
-
-const htmlOutput = template.evaluate();SpreadsheetApp.getUi().showSidebar(htmlOutput);
+  const userProfile = JSON.parse(response.getContentText());
+  return userProfile;
 }
