@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gis form Line v2</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
 </head>
@@ -25,20 +26,15 @@
             <label class="col-2 p-2 col-form-label col-form-label-sm">จำนวน</label>
             <input class="form-control col-3  m-2" type="number"  min="0" value="" step=".01" name="quantity" placeholder="" required>
             <label class="col-2 p-2 col-form-label col-form-label-sm">แถม</label>
-            <input class="form-control col-3  m-2" type="number"  min="0" value="0" step=".01" name="gifs" placeholder="" >
+            <input class="form-control col-3  m-2" type="number"  min="0" value="0" step=".01" name="gifs" placeholder="">
             <label class="col-2 p-2 col-form-label col-form-label-sm">ราคา</label>
             <input class="form-control col-3  m-2" type="number" min="0" value="" step=".01" name="price" placeholder="" required>
             <label class="col-2 p-2 col-form-label col-form-label-sm">ส่วนลด</label>
-            <input class="form-control col-3  m-2" type="number" min="0" value="0" step=".01" name="disc" placeholder="" >
+            <input class="form-control col-3  m-2" type="number" min="0" value="0" step=".01" name="disc" placeholder="">
             <label class="col-2 p-2 col-form-label col-form-label-sm">หมายเหตุ</label>
-            <textarea class="form-control col-12" name="note" > </textarea>
+            <textarea class="form-control col-12" name="note"></textarea>
         </div>
-        <div class="row">
-            <div class="col-12 text-right">
-                <button type="submit" class="mt-4 btn btn-primary" onclick="return approveForm()">อนุมัติ</button>
-                <button type="submit" class="mt-4 btn btn-success">บันทึกข้อมูล</button>
-            </div>
-        </div>
+        <input type="submit" class="mt-4 btn btn-success" value="บันทึกข้อมูล">
     </form>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -47,11 +43,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
-
         $(document).ready(function () {
             const liffId = "1660766925-qDv7zvV5";
             initializeLiff(liffId);
-        })
+        });
 
         function initializeLiff(liffId) {
             liff.init({
@@ -75,25 +70,6 @@
             }).catch(function (error) {
                 window.alert('Failed to send message ' + error);
             });
-        }
-
-        function approveForm() {
-            const name = $('input[name="SellerID"]').val();
-            const customer = $('input[name="customer"]').val();
-            const province = $('input[name="province"]').val();
-            const product = $('input[name="product"]').val();
-            const quantity = $('input[name="quantity"]').val();
-            const gifs = $('input[name="gifs"]').val();
-            const price = $('input[name="price"]').val();
-            const disc = $('input[name="disc"]').val();
-            const note = $('textarea[name="note"]').val();
-            const msg = `ผู้แทนขาย: ${name}\nลูกค้า: ${customer}\nจังหวัด: ${province}\nรายการสินค้า: ${product}\nจำนวน: ${quantity}\nแถม: ${gifs}\nราคา: ${price}\nส่วนลด: ${disc}\nหมายเหตุ: ${note}`;
-
-            if (confirm("คุณต้องการอนุมัติแบบฟอร์มนี้หรือไม่?")) {
-                sendText(msg);
-            }
-
-            return false;
         }
 
         function sendText(text) {
@@ -123,13 +99,101 @@
                 const price = $('input[name="price"]').val();
                 const disc = $('input[name="disc"]').val();
                 const note = $('textarea[name="note"]').val();
-                const msg = `${name}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${note}`;
-                sendText(msg);
+
+               const flexMessage = {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Gis form Line",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "margin": "md"
+                                },
+                                {
+                                    "type": "separator",
+                                    "margin": "md"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "ผู้แทนขาย: " + name,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "ลูกค้า: " + customer,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "จังหวัด: " + province,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "รายการสินค้า: " + product,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "จำนวน: " + quantity,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "แถม: " + gifs,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "ราคา: " + price,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "ส่วนลด: " + disc,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "หมายเหตุ: " + note,
+                                    "size": "sm",
+                                    "wrap": true
+                                },
+                                {
+                                    "type": "separator",
+                                    "margin": "md"
+                                },
+                                {
+                                    "type": "button",
+                                    "action": {
+                                        "type": "postback",
+                                        "label": "อนุมัติ",
+                                        "data": "approval"
+                                    },
+                                    "color": "#32CD32",
+                                    "style": "primary"
+                                }
+                            ]
+                        }
+                    };
+
+
+                sendFlexMessage(flexMessage);
                 return false;
             });
         });
-
     </script>
-
 </body>
 </html>
