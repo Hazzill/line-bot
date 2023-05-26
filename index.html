@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gis form Line v3</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <title>Gis form Line</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
 </head>
@@ -26,13 +26,13 @@
             <label class="col-2 p-2 col-form-label col-form-label-sm">จำนวน</label>
             <input class="form-control col-3  m-2" type="number"  min="0" value="" step=".01" name="quantity" placeholder="" required>
             <label class="col-2 p-2 col-form-label col-form-label-sm">แถม</label>
-            <input class="form-control col-3  m-2" type="number"  min="0" value="0" step=".01" name="gifs" placeholder="">
+            <input class="form-control col-3  m-2" type="number"  min="0" value="0" step=".01" name="gifs" placeholder="" >
             <label class="col-2 p-2 col-form-label col-form-label-sm">ราคา</label>
             <input class="form-control col-3  m-2" type="number" min="0" value="" step=".01" name="price" placeholder="" required>
             <label class="col-2 p-2 col-form-label col-form-label-sm">ส่วนลด</label>
-            <input class="form-control col-3  m-2" type="number" min="0" value="0" step=".01" name="disc" placeholder="">
+            <input class="form-control col-3  m-2" type="number" min="0" value="0" step=".01"name="disc" placeholder="" >
             <label class="col-2 p-2 col-form-label col-form-label-sm">หมายเหตุ</label>
-            <textarea class="form-control col-12" name="note"></textarea>
+            <textarea class="form-control col-12" name="note" > </textarea>
         </div>
         <input type="submit" class="mt-4 btn btn-success" value="บันทึกข้อมูล">
     </form>
@@ -43,146 +43,55 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
+
         $(document).ready(function () {
-  const liffId = "1660766925-qDv7zvV5";
-  initializeLiff(liffId);
-});
+            const liffId = "1660766925-qDv7zvV5";
+            initializeLiff(liffId);
+        })
 
-function initializeLiff(liffId) {
-  liff.init({
-    liffId: liffId
-  }).then(() => {
-    initializeApp();
-  }).catch((err) => {
-    console.log('LIFF Initialization failed ', err);
-  });
-}
-
-function sendFlexMessage(flexMessage) {
-  liff.sendMessages([
-    {
-      'type': 'flex',
-      'altText': 'Flex Message',
-      'contents': flexMessage
-    }
-  ]).then(function () {
-    liff.closeWindow();
-  }).catch(function (error) {
-    window.alert('Failed to send message ' + error);
-  });
-}
-
-const params = (new URL(document.location)).searchParams;
-const key = params.get('key');
-
-$(function () {
-  $('form').submit(function () {
-    const name = $('input[name="SellerID"]').val();
-    const customer = $('input[name="customer"]').val();
-    const province = $('input[name="province"]').val();
-    const product = $('input[name="product"]').val();
-    const quantity = $('input[name="quantity"]').val();
-    const gifs = $('input[name="gifs"]').val();
-    const price = $('input[name="price"]').val();
-    const disc = $('input[name="disc"]').val();
-    const note = $('textarea[name="note"]').val();
-
-    // Create a Flex Message object
-    const flexMessage = {
-      "type": "flex",
-      "altText": "Sales Information",
-      "contents": {
-        "type": "bubble",
-        "direction": "ltr",
-        "header": {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [
-            {
-              "type": "text",
-              "text": "Sales Information",
-              "weight": "bold",
-              "size": "lg",
-              "align": "center"
-            }
-          ]
-        },
-        "body": {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [
-            {
-              "type": "text",
-              "text": "Seller: " + name
-            },
-            {
-              "type": "text",
-              "text": "Customer: " + customer
-            },
-            {
-              "type": "text",
-              "text": "Province: " + province
-            },
-            {
-              "type": "text",
-              "text": "Product: " + product
-            },
-            {
-              "type": "text",
-              "text": "Quantity: " + quantity
-            },
-            {
-              "type": "text",
-              "text": "Gifts: " + gifs
-            },
-            {
-              "type": "text",
-              "text": "Price: " + price
-            },
-            {
-              "type": "text",
-              "text": "Discount: " + disc
-            },
-            {
-              "type": "text",
-              "text": "Note: " + note
-            }
-          ]
-        },
-        "footer": {
-          "type": "box",
-          "layout": "horizontal",
-          "contents": [
-            {
-              "type": "button",
-              "action": {
-                "type": "postback",
-                "label": "Approve",
-                "data": "action=approve&key=" + key
-              },
-              "style": "primary",
-              "color": "#00FF00"
-            },
-            {
-              "type": "button",
-              "action": {
-                "type": "postback",
-                "label": "Reject",
-                "data": "action=reject&key=" + key
-              },
-              "style": "primary",
-              "color": "#FF0000"
-            }
-          ]
+        function initializeLiff(liffId) {
+            liff.init({
+                liffId: liffId
+            }).then(() => {
+                initializeApp();
+            }).catch((err) => {
+                console.log('LIFF Initialization failed ', err);
+            });
         }
-      }
-    };
 
-    sendFlexMessage(flexMessage);
-    return false;
-  });
-});
+        function sendText(text) {
+            liff.sendMessages([{
+                'type': 'text',
+                'text': text
+            }]).then(function () {
+                liff.closeWindow();
+            }).catch(function (error) {
+                window.alert('Failed to send message ' + error);
+            });
+        }
+
+        const params = (new URL(document.location)).searchParams;
+        const key = params.get('key');
+
+        $(function () {
+            $('form').submit(function () {
+               
+                const name     = $('input[name="SellerID"]').val();
+                const customer = $('input[name="customer"]').val();
+		        const province = $('input[name="province"]').val();
+                const product  = $('input[name="product"]').val();
+		        const quantity = $('input[name="quantity"]').val();
+                const gifs     = $('input[name="gifs"]').val();
+                const price    = $('input[name="price"]').val();
+                const disc     = $('input[name="disc"]').val();
+		        const note     = $('textarea[name="note"]').val();
+                const msg      = `${name}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${note}`;
+                sendText(msg);
+                return false;
+            });
+        });
 
     </script>
+
 </body>
 </html>
