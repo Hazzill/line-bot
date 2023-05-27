@@ -1,38 +1,37 @@
-
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gis form Line</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
+    <title>Gis form Linev2</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
 </head>
 <body class="bg-light">
-    <form class="container" style="padding: 40px;">  
+    <form class="container" style="padding: 40px;">
         <div class="row">
             <label class="col-3 p-2 col-form-label col-form-label-sm">ผู้แทนขาย</label>
             <input class="form-control col-4 m-2" name="SellerID" placeholder="" required>
         </div>
         <div class="row">
             <label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
-            <input class="form-control col-8  m-2" name="customer" placeholder="" required>
+            <input class="form-control col-8 m-2" name="customer" placeholder="" required>
             <label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
-            <input class="form-control col-8  m-2" name="province" placeholder="" required>
+            <input class="form-control col-8 m-2" name="province" placeholder="" required>
             <label class="col-3 p-2 col-form-label col-form-label-sm">รายการสินค้า</label>
-            <input class="form-control col-8  m-2" name="product" placeholder="" required>
+            <input class="form-control col-8 m-2" name="product" placeholder="" required>
         </div>
         <div class="row p2">
             <label class="col-2 p-2 col-form-label col-form-label-sm">จำนวน</label>
-            <input class="form-control col-3  m-2" type="number"  min="0" value="" step=".01" name="quantity" placeholder="" required>
+            <input class="form-control col-3 m-2" type="number" min="0" value="" step=".01" name="quantity" placeholder="" required>
             <label class="col-2 p-2 col-form-label col-form-label-sm">แถม</label>
-            <input class="form-control col-3  m-2" type="number"  min="0" value="0" step=".01" name="gifs" placeholder="" >
+            <input class="form-control col-3 m-2" type="number" min="0" value="0" step=".01" name="gifs" placeholder="">
             <label class="col-2 p-2 col-form-label col-form-label-sm">ราคา</label>
-            <input class="form-control col-3  m-2" type="number" min="0" value="" step=".01" name="price" placeholder="" required>
+            <input class="form-control col-3 m-2" type="number" min="0" value="" step=".01" name="price" placeholder="" required>
             <label class="col-2 p-2 col-form-label col-form-label-sm">ส่วนลด</label>
-            <input class="form-control col-3  m-2" type="number" min="0" value="0" step=".01"name="disc" placeholder="" >
+            <input class="form-control col-3 m-2" type="number" min="0" value="0" step=".01" name="disc" placeholder="">
             <label class="col-2 p-2 col-form-label col-form-label-sm">หมายเหตุ</label>
-            <textarea class="form-control col-12" name="note" > </textarea>
+            <textarea class="form-control col-12" name="note"></textarea>
         </div>
         <input type="submit" class="mt-4 btn btn-success" value="บันทึกข้อมูล">
     </form>
@@ -59,11 +58,14 @@
             });
         }
 
-        function sendText(text) {
-            liff.sendMessages([{
-                'type': 'text',
-                'text': text
-            }]).then(function () {
+        function sendFlexMessage(contents) {
+            liff.sendMessages([
+                {
+                    type: 'flex',
+                    altText: 'Form Data',
+                    contents: contents
+                }
+            ]).then(function () {
                 liff.closeWindow();
             }).catch(function (error) {
                 window.alert('Failed to send message ' + error);
@@ -75,18 +77,76 @@
 
         $(function () {
             $('form').submit(function () {
-               
-                const name     = $('input[name="SellerID"]').val();
+                const name = $('input[name="SellerID"]').val();
                 const customer = $('input[name="customer"]').val();
-		        const province = $('input[name="province"]').val();
-                const product  = $('input[name="product"]').val();
-		        const quantity = $('input[name="quantity"]').val();
-                const gifs     = $('input[name="gifs"]').val();
-                const price    = $('input[name="price"]').val();
-                const disc     = $('input[name="disc"]').val();
-		        const note     = $('textarea[name="note"]').val();
-                const msg      = `${name}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${note}`;
-                sendText(msg);
+                const province = $('input[name="province"]').val();
+                const product = $('input[name="product"]').val();
+                const quantity = $('input[name="quantity"]').val();
+                const gifs = $('input[name="gifs"]').val();
+                const price = $('input[name="price"]').val();
+                const disc = $('input[name="disc"]').val();
+                const note = $('textarea[name="note"]').val();
+
+                const flexContents = {
+                    type: 'bubble',
+                    hero: {
+                        type: 'image',
+                        url: 'https://example.com/image.jpg',
+                        size: 'full',
+                        aspectRatio: '20:13',
+                        aspectMode: 'cover',
+                    },
+                    body: {
+                        type: 'box',
+                        layout: 'vertical',
+                        contents: [
+                            {
+                                type: 'text',
+                                text: 'Form Data',
+                                weight: 'bold',
+                                size: 'xl',
+                            },
+                            {
+                                type: 'text',
+                                text: `ผู้แทนขาย: ${name}`,
+                            },
+                            {
+                                type: 'text',
+                                text: `ลูกค้า: ${customer}`,
+                            },
+                            {
+                                type: 'text',
+                                text: `จังหวัด: ${province}`,
+                            },
+                            {
+                                type: 'text',
+                                text: `รายการสินค้า: ${product}`,
+                            },
+                            {
+                                type: 'text',
+                                text: `จำนวน: ${quantity}`,
+                            },
+                            {
+                                type: 'text',
+                                text: `แถม: ${gifs}`,
+                            },
+                            {
+                                type: 'text',
+                                text: `ราคา: ${price}`,
+                            },
+                            {
+                                type: 'text',
+                                text: `ส่วนลด: ${disc}`,
+                            },
+                            {
+                                type: 'text',
+                                text: `หมายเหตุ: ${note}`,
+                            }
+                        ],
+                    },
+                };
+
+                sendFlexMessage(flexContents);
                 return false;
             });
         });
