@@ -15,6 +15,8 @@
             <input class="form-control col-4 m-2" name="SellerID" placeholder="" required>
         </div>
         <div class="row">
+	    <label class="col-3 p-2 col-form-label col-form-label-sm">เลขใบสั่งซื้อ</label>
+            <input class="form-control col-8  m-2" name="ipo" placeholder="" required>
             <label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
             <input class="form-control col-8  m-2" name="customer" placeholder="" required>
             <label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
@@ -77,6 +79,7 @@
             $('form').submit(function () {
                
                 const name     = $('input[name="SellerID"]').val();
+		const ipo      = $('input[name="ipo"]').val();
                 const customer = $('input[name="customer"]').val();
 		const province = $('input[name="province"]').val();
                 const product  = $('input[name="product"]').val();
@@ -85,7 +88,7 @@
                 const price    = $('input[name="price"]').val();
                 const disc     = $('input[name="disc"]').val();
 		const note     = $('textarea[name="note"]').val();
-                const msg      = `${name}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${note}`;
+                const msg      = `${name}\n${ipo}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${note}`;
                 sendText(msg);
                 return false;
             });
