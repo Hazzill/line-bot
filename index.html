@@ -22,7 +22,7 @@
 	<input class="form-control col-8  m-2" name="customer" placeholder="" required>
 	<label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
 	<input class="form-control col-8 m-2" name="province" list="province-list" placeholder="กรอกหรือเลือกจังหวัด" required>
-  	<datalist id="province-list">
+  	<select id="province-list">
         <option value="กระบี่">กระบี่</option>
         <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
         <option value="กาญจนบุรี">กาญจนบุรี</option>
@@ -100,11 +100,11 @@
         <option value="อุทัยธานี">อุทัยธานี</option>
         <option value="อุบลราชธานี">อุบลราชธานี</option>
         <option value="อำนาจเจริญ">อำนาจเจริญ</option>
-    </datalist>
+    </select>
 
         <label class="col-3 p-2 col-form-label col-form-label-sm">รายการสินค้า</label>
         <input class="form-control col-8 m-2" name="product" list="product-list" placeholder="กรอกหรือเลือกสินค้า" required>
-	<datalist id="product-list">
+	<select id="product-list">
 		<option value="HEPARIN INJ 5000 IU">HEPARIN INJ 5000 IU</option>
 		<option value="ENACE 5 (10x10)">ENACE 5 (10x10)</option>
 		<option value="DICLO SR 100">DICLO SR 100</option>
@@ -113,7 +113,7 @@
 		<option value="OMLEK 20">OMLEK 20</option>
 		<option value="OFTOP 200">OFTOP 200</option>
 		<option value="TENROL 100">TENROL 100</option>
-	</datalist>
+	</select>
         </div>
         <div class="row p2">
             <label class="col-2 p-2 col-form-label col-form-label-sm">จำนวน</label>
