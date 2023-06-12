@@ -19,7 +19,7 @@ function doPost(e) {
   const messages = [];
   const sheet = SpreadsheetApp.getActiveSpreadsheet();
   const listSheet = sheet.getSheetByName("Order");
-  const numColumn = 10; // จำนวนคอลัมน์ที่ต้องการแสดงข้อมูลล่าสุด (A2-J)
+  const numColumn = 11; // จำนวนคอลัมน์ที่ต้องการแสดงข้อมูลล่าสุด (A2-K)
   const numRow = listSheet.getLastRow() - 1;
   const topRange = listSheet.getRange(1, 1, 1, numColumn);
   const dataRange = listSheet.getRange(2, 1, numRow, numColumn);
@@ -35,7 +35,7 @@ function doPost(e) {
   const timestamp = new Date();
   const timestampString = timestamp.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' });
   listSheet.getRange(dataNum, msg_num + 1).setValue(timestampString);
-  //listSheet.getRange(dataNum, msg_num + 2).setValue(userId);
+  listSheet.getRange(dataNum, msg_num + 2).setValue(userId);
 
   // ดึงข้อมูลโปรไฟล์ผู้ใช้จาก LINE
   const userProfile = getUserProfile(userId);
@@ -46,7 +46,7 @@ function doPost(e) {
   const flexContents = [];
 
   // สร้างเนื้อหา Flex Message จาก userMessage
-  const headers = ['รหัสผู้ขาย', 'ลูกค้า', 'จังหวัด', 'รายการสินค้า', 'จำนวน', 'แถม', 'ราคาขาย', 'ลด', 'หมายเหตุ'];
+  const headers = ['รหัสผู้ขาย','เลขใบสั่งซื้อ', 'ลูกค้า', 'จังหวัด', 'รายการสินค้า', 'จำนวน', 'แถม', 'ราคาขาย', 'ลด', 'หมายเหตุ'];
 
   for (let i = 0; i < msg_num; i++) {
     const header = headers[i];
