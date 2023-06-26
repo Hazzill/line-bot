@@ -2,7 +2,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gis form Line2</title>
+    <title>Gis form Line</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
@@ -21,8 +21,8 @@
 	<label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
 	<input class="form-control col-8  m-2" name="customer" placeholder="" required>
 	<label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
-	<select class="form-control col-8 m-2"  name="province"  placeholder="กรอกหรือเลือกจังหวัด" required>
-		      <option value="โปรดเลือกจังหวัด">โปรดเลือกจังหวัด</option>
+	<input class="form-control col-8 m-2" list="province-list" name="province"  placeholder="กรอกหรือเลือกจังหวัด" required>
+	<datalist id="province-list">
                       <option value="กระบี่">กระบี่</option>
                       <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
                       <option value="กาญจนบุรี">กาญจนบุรี</option>
@@ -103,9 +103,9 @@
                     </datalist>                
                
 	<label class="col-3 p-2 col-form-label col-form-label-sm">รายการสินค้า</label>
-        <select class="form-control col-8 m-2" list="product-list"  name="product"  placeholder="กรอกสินค้า" required>
-		<datalist id="product-list">
-	        <option value="HEPARIN INJ 5000 IU">HEPARIN INJ 5000 IU</option>
+        <input class="form-control col-8 m-2" list="product-list" name="product"  placeholder="กรอกสินค้า" required>
+	        <datalist id="product-list">
+                <option value="HEPARIN INJ 5000 IU">HEPARIN INJ 5000 IU</option>
                 <option value="ENACE 5 (10x10)">ENACE 5 (10x10)</option>
                 <option value="DICLO SR 100">DICLO SR 100</option>
                 <option value="AMCARDIA 5">AMCARDIA 5</option>
@@ -113,8 +113,9 @@
                 <option value="OMLEK 20">OMLEK 20</option>
                 <option value="OFTOP 200">OFTOP 200</option>
                 <option value="TENROL 100">TENROL 100</option>
-		</datalist>
-	</select>
+            </datalist>
+       
+	</div>
         <div class="row p2">
             <label class="col-2 p-2 col-form-label col-form-label-sm">จำนวน</label>
             <input class="form-control col-3  m-2" type="number"  min="0" value="" step=".01" name="quantity" placeholder="" required>
@@ -173,7 +174,7 @@
 		const ipo      = $('input[name="ipo"]').val();
                 const customer = $('input[name="customer"]').val();
 		const province = $('input[name="province"]').val();
-                const product  = $('select[name="product"]').val();
+                const product  = $('input[name="product"]').val();
 		const quantity = $('input[name="quantity"]').val();
                 const gifs     = $('input[name="gifs"]').val();
                 const price    = $('input[name="price"]').val();
