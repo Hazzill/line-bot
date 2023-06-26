@@ -15,39 +15,34 @@
           </div>
         <div class="row">
             <div class="col">
-              <!-- Name input -->
-              <div class="form-outline">
-                <input type="text" id="form8Example1" class="form-control"placeholder="ผู้แทนขาย" />
+             <div class="form-outline">
+                <input type="text" id="form8Example1" class="form-control"placeholder="รหัสผู้แทน" />
               </div>
             </div>
-            <div class="col">
-                <!-- Email input -->
+	    <div class="col">
                 <div class="form-outline">
+                  <input type="text"  list="customertype"class="form-control" placeholder="ประเภทลูกค้า"/>
+                  <datalist id="customertype">
+                    <option value="ผู้แทน1">ผู้แทน1</option>
+                    <option value="ผู้แทน2">ผู้แทน2</option>
+                    <option value="ผู้แทน3">ผู้แทน3</option>
+                  </datalist>
+                </div>
+           </div>
+	 <div class="col">
+	   <div class="form-outline">
+                <input type="text" id="form8Example2" class="form-control" placeholder="เลขใบสั่งซื้อ"/>
+           </div>
+         </div>
+            <div class="col">
+               <div class="form-outline">
                   <input type="date" id="form8Example2" class="form-control" placeholder="วันที่รับออเดอร์"/>
                 </div>
               </div>
-            <div class="col">
-              <!-- Email input -->
-              <div class="form-outline">
-                <input type="email" id="form8Example2" class="form-control" placeholder="เลขใบสั่งซื้อ"/>
-              </div>
-            </div>
-            <div class="col">
-                <!-- Email input -->
-                <div class="form-outline">
-                  <input type="email"  list="customertype"class="form-control" placeholder="ประเภทลูกค้า"/>
-                  <datalist id="customertype">
-                    <option value="ออนไลน์">ออนไลน์</option>
-                    <option value="ขายปลีก">ขายปลีก</option>
-                    <option value="ขายส่ง">ขายส่ง</option>
-                  </datalist>
-                </div>
-              </div>
-          </div>
+         </div>
           <hr />
           <div class="row">
             <div class="col col-4">
-                <!-- Email input -->
                 <div class="form-outline">
                   <input type="text" id="form8Example2" class="form-control" placeholder="ลูกค้า"/>
                 </div>
@@ -162,8 +157,7 @@
         <div class="col">
             <input class="form-control" type="number"  min="0" value="" step=".01" name="quantity" placeholder="ส่วนลด" required>
         </div>
-       
-    </div>
+       </div>
     <hr /> 
     <div class="row">
          <div class="col">
