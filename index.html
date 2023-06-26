@@ -2,7 +2,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gis form Line</title>
+    <title>Gis form Line2</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
@@ -103,9 +103,8 @@
                     </datalist>                
                
 	<label class="col-3 p-2 col-form-label col-form-label-sm">รายการสินค้า</label>
-        <input class="form-control col-8 m-2"  name="product"  placeholder="กรอกสินค้า" required>
-	        
-                <option value="HEPARIN INJ 5000 IU">HEPARIN INJ 5000 IU</option>
+        <select class="form-control col-8 m-2"  name="product"  placeholder="กรอกสินค้า" required>
+	       <option value="HEPARIN INJ 5000 IU">HEPARIN INJ 5000 IU</option>
                 <option value="ENACE 5 (10x10)">ENACE 5 (10x10)</option>
                 <option value="DICLO SR 100">DICLO SR 100</option>
                 <option value="AMCARDIA 5">AMCARDIA 5</option>
@@ -113,8 +112,7 @@
                 <option value="OMLEK 20">OMLEK 20</option>
                 <option value="OFTOP 200">OFTOP 200</option>
                 <option value="TENROL 100">TENROL 100</option>
-            
-	</div>
+	</select>
         <div class="row p2">
             <label class="col-2 p-2 col-form-label col-form-label-sm">จำนวน</label>
             <input class="form-control col-3  m-2" type="number"  min="0" value="" step=".01" name="quantity" placeholder="" required>
@@ -135,22 +133,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-    <script>
-       
-        function handleSelectChange(selectId) {
-            var selectedValue = document.getElementById(selectId).value;
-            // ตรวจสอบและดำเนินการตามค่าที่เลือก
-                if (selectId === 'province') {
-            // ดำเนินการสำหรับ select1
-            console.log('เลือกค่าจาก province:', selectedValue);
-                } else if (selectId === 'product') {
-            // ดำเนินการสำหรับ select2
-            console.log('เลือกค่าจาก product:', selectedValue);
-                }
-        }
-
-    </script>
-
     <script>
 
         $(document).ready(function () {
@@ -189,7 +171,7 @@
 		const ipo      = $('input[name="ipo"]').val();
                 const customer = $('input[name="customer"]').val();
 		const province = $('input[name="province"]').val();
-                const product  = $('input[name="product"]').val();
+                const product  = $('select[name="product"]').val();
 		const quantity = $('input[name="quantity"]').val();
                 const gifs     = $('input[name="gifs"]').val();
                 const price    = $('input[name="price"]').val();
