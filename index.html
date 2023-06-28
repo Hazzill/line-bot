@@ -21,7 +21,8 @@
 	<label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
 	<input class="form-control col-8  m-2" name="customer" placeholder="" required>
 	<label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
-	<select class="form-control col-8 m-2" name="province"  placeholder="เลือกจังหวัด" required>
+	<input class="form-control col-8 m-2"  list="province-list" name="province"  placeholder="เลือกจังหวัด" required>
+		 <datalist id="province-list">
 		      <option value="เลือกจังหวัด">เลือกจังหวัด</option>
                       <option value="กระบี่">กระบี่</option>
                       <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
@@ -100,7 +101,7 @@
                       <option value="อุทัยธานี">อุทัยธานี</option>
                       <option value="อุบลราชธานี">อุบลราชธานี</option>
                       <option value="อำนาจเจริญ">อำนาจเจริญ</option>
-            </select>                
+            </datalist>                
                
 	<label class="col-3 p-2 col-form-label col-form-label-sm">รายการสินค้า</label>
         <input class="form-control col-8 m-2" list="product-list"  name="product"  placeholder="กรอกสินค้า" required>
@@ -180,7 +181,7 @@
                 const name     = $('input[name="SellerID"]').val();
 		const ipo      = $('input[name="ipo"]').val();
                 const customer = $('input[name="customer"]').val();
-		const province = $('select[name="province"]').val();
+		const province = $('input[name="province"]').val();
                 const product  = $('input[name="product"]').val();
 		const quantity = $('input[name="quantity"]').val();
                 const gifs     = $('input[name="gifs"]').val();
