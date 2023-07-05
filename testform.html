@@ -1,157 +1,101 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gis form Linev2</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+  <title>ตัวอย่างฟอร์มที่มีหลายชุดตัวเลือก</title>
+  <style>
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      padding: 12px 16px;
+      z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-option {
+      cursor: pointer;
+    }
+
+    .dropdown-option:hover {
+      background-color: #ddd;
+    }
+  </style>
 </head>
-<body class="bg-light">
-    <form class="container" style="padding: 40px;">
-        <div class="row">
-            <label class="col-3 p-2 col-form-label col-form-label-sm">ผู้แทนขาย</label>
-            <input class="form-control col-4 m-2" name="SellerID" placeholder="" required>
-        </div>
-        <div class="row">
-            <label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
-            <input class="form-control col-8 m-2" name="customer" placeholder="" required>
-            <label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
-            <input class="form-control col-8 m-2" name="province" placeholder="" required>
-            <label class="col-3 p-2 col-form-label col-form-label-sm">รายการสินค้า</label>
-            <input class="form-control col-8 m-2" name="product" placeholder="" required>
-        </div>
-        <div class="row p2">
-            <label class="col-2 p-2 col-form-label col-form-label-sm">จำนวน</label>
-            <input class="form-control col-3 m-2" type="number" min="0" value="" step=".01" name="quantity" placeholder="" required>
-            <label class="col-2 p-2 col-form-label col-form-label-sm">แถม</label>
-            <input class="form-control col-3 m-2" type="number" min="0" value="0" step=".01" name="gifs" placeholder="">
-            <label class="col-2 p-2 col-form-label col-form-label-sm">ราคา</label>
-            <input class="form-control col-3 m-2" type="number" min="0" value="" step=".01" name="price" placeholder="" required>
-            <label class="col-2 p-2 col-form-label col-form-label-sm">ส่วนลด</label>
-            <input class="form-control col-3 m-2" type="number" min="0" value="0" step=".01" name="disc" placeholder="">
-            <label class="col-2 p-2 col-form-label col-form-label-sm">หมายเหตุ</label>
-            <textarea class="form-control col-12" name="note"></textarea>
-        </div>
-        <input type="submit" class="mt-4 btn btn-success" value="บันทึกข้อมูล">
-    </form>
+<body>
+  <form>
+    <div class="dropdown">
+      <span id="selectedOption" onclick="toggleDropdown()">กรอกตัวเลือกอื่น ๆ</span>
+      <div id="dropdownOptions" class="dropdown-content">
+        <div class="dropdown-option" onclick="selectOtherOption()">กรอกตัวเลือกอื่น ๆ</div>
+        <div class="dropdown-option" onclick="selectOption('ตัวเลือก 1')">ตัวเลือก 1</div>
+        <div class="dropdown-option" onclick="selectOption('ตัวเลือก 2')">ตัวเลือก 2</div>
+        <div class="dropdown-option" onclick="selectOption('ตัวเลือก 3')">ตัวเลือก 3</div>
+        <div class="dropdown-option" onclick="selectOption('ตัวเลือก 4')">ตัวเลือก 4</div>
+      </div>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-    <script>
+    <div class="dropdown">
+      <span id="selectedOption2" onclick="toggleDropdown2()">กรอกตัวเลือกอื่น ๆ 2</span>
+      <div id="dropdownOptions2" class="dropdown-content">
+        <div class="dropdown-option" onclick="selectOtherOption2()">กรอกตัวเลือกอื่น ๆ 2</div>
+        <div class="dropdown-option" onclick="selectOption2('ตัวเลือก 5')">ตัวเลือก 5</div>
+        <div class="dropdown-option" onclick="selectOption2('ตัวเลือก 6')">ตัวเลือก 6</div>
+        <div class="dropdown-option" onclick="selectOption2('ตัวเลือก 7')">ตัวเลือก 7</div>
+        <div class="dropdown-option" onclick="selectOption2('ตัวเลือก 8')">ตัวเลือก 8</div>
+      </div>
+    </div>
+  </form>
 
-        $(document).ready(function () {
-            const liffId = "1660766925-qDv7zvV5";
-            initializeLiff(liffId);
-        })
+  <script>
+    var dropdownOptions = document.getElementById('dropdownOptions');
+    var selectedOption = document.getElementById('selectedOption');
 
-        function initializeLiff(liffId) {
-            liff.init({
-                liffId: liffId
-            }).then(() => {
-                initializeApp();
-            }).catch((err) => {
-                console.log('LIFF Initialization failed ', err);
-            });
-        }
+    var dropdownOptions2 = document.getElementById('dropdownOptions2');
+    var selectedOption2 = document.getElementById('selectedOption2');
 
-        function sendFlexMessage(contents) {
-            liff.sendMessages([
-                {
-                    type: 'flex',
-                    altText: 'ราการสั่งซื้อ',
-                    contents: contents
-                }
-            ]).then(function () {
-                liff.closeWindow();
-            }).catch(function (error) {
-                window.alert('Failed to send message ' + error);
-            });
-        }
+    function toggleDropdown() {
+      dropdownOptions.style.display = dropdownOptions.style.display === 'none' ? 'block' : 'none';
+    }
 
-        const params = (new URL(document.location)).searchParams;
-        const key = params.get('key');
+    function toggleDropdown2() {
+      dropdownOptions2.style.display = dropdownOptions2.style.display === 'none' ? 'block' : 'none';
+    }
 
-        $(function () {
-            $('form').submit(function () {
-                const name = $('input[name="SellerID"]').val();
-                const customer = $('input[name="customer"]').val();
-                const province = $('input[name="province"]').val();
-                const product = $('input[name="product"]').val();
-                const quantity = $('input[name="quantity"]').val();
-                const gifs = $('input[name="gifs"]').val();
-                const price = $('input[name="price"]').val();
-                const disc = $('input[name="disc"]').val();
-                const note = $('textarea[name="note"]').val();
+    function selectOption(option) {
+      selectedOption.textContent = option;
+      dropdownOptions.style.display = 'none';
+    }
 
-                const flexContents = {
-                    type: 'bubble',
-                    hero: {
-                        type: 'image',
-                        url: 'https://marketplace.canva.com/EAE9QjX6rhA/1/0/1600w/canva-blue-pink-gradient-fashion-banner-cVzLo3B1IHE.jpg',
-                        size: 'full',
-                        aspectRatio: '20:13',
-                        aspectMode: 'cover',
-                    },
-                    body: {
-                        type: 'box',
-                        layout: 'vertical',
-                        contents: [
-                            {
-                                type: 'text',
-                                text: 'Form Data',
-                                weight: 'bold',
-                                size: 'xl',
-                            },
-                            {
-                                type: 'text',
-                                text: `ผู้แทนขาย: ${name}`,
-                            },
-                            {
-                                type: 'text',
-                                text: `ลูกค้า: ${customer}`,
-                            },
-                            {
-                                type: 'text',
-                                text: `จังหวัด: ${province}`,
-                            },
-                            {
-                                type: 'text',
-                                text: `รายการสินค้า: ${product}`,
-                            },
-                            {
-                                type: 'text',
-                                text: `จำนวน: ${quantity}`,
-                            },
-                            {
-                                type: 'text',
-                                text: `แถม: ${gifs}`,
-                            },
-                            {
-                                type: 'text',
-                                text: `ราคา: ${price}`,
-                            },
-                            {
-                                type: 'text',
-                                text: `ส่วนลด: ${disc}`,
-                            },
-                            {
-                                type: 'text',
-                                text: `หมายเหตุ: ${note}`,
-                            }
-                        ],
-                    },
-                };
+    function selectOption2(option) {
+      selectedOption2.textContent = option;
+      dropdownOptions2.style.display = 'none';
+    }
 
-                sendFlexMessage(flexContents);
-                return false;
-            });
-        });
+    function selectOtherOption() {
+      var userInput = prompt('กรุณากรอกตัวเลือกอื่น ๆ');
+      if (userInput !== null) {
+        selectedOption.textContent = userInput;
+        dropdownOptions.style.display = 'none';
+      }
+    }
 
-    </script>
-
+    function selectOtherOption2() {
+      var userInput = prompt('กรุณากรอกตัวเลือกอื่น ๆ 2');
+      if (userInput !== null) {
+        selectedOption2.textContent = userInput;
+        dropdownOptions2.style.display = 'none';
+      }
+    }
+  </script>
 </body>
 </html>
