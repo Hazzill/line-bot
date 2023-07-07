@@ -132,47 +132,7 @@
         </div>
         <input type="submit" class="mt-4 btn btn-success" value="บันทึกข้อมูล">
     </form>
-<script>
-    var dropdownOptions = document.getElementById('dropdownOptions');
-    var selectedOption = document.getElementById('selectedOption');
 
-    var dropdownOptions2 = document.getElementById('dropdownOptions2');
-    var selectedOption2 = document.getElementById('selectedOption2');
-
-    function toggleDropdown() {
-      dropdownOptions.style.display = dropdownOptions.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function toggleDropdown2() {
-      dropdownOptions2.style.display = dropdownOptions2.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function selectOption(option) {
-      selectedOption.textContent = option;
-      dropdownOptions.style.display = 'none';
-    }
-
-    function selectOption2(option) {
-      selectedOption2.textContent = option;
-      dropdownOptions2.style.display = 'none';
-    }
-
-    function selectOtherOption() {
-      var userInput = prompt('กรุณากรอกตัวเลือกอื่น ๆ');
-      if (userInput !== null) {
-        selectedOption.textContent = userInput;
-        dropdownOptions.style.display = 'none';
-      }
-    }
-
-    function selectOtherOption2() {
-      var userInput = prompt('กรุณากรอกตัวเลือกอื่น ๆ 2');
-      if (userInput !== null) {
-        selectedOption2.textContent = userInput;
-        dropdownOptions2.style.display = 'none';
-      }
-    }
-  </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
