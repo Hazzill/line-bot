@@ -21,10 +21,8 @@
 	<label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
 	<input class="form-control col-8  m-2" name="customer" placeholder="" required>
 	<label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
-	<input class="form-control col-8 m-2"  list="province-list" name="province"  placeholder="เลือกจังหวัด" required>
-		 <datalist id="province-list">
-		      <option value="เลือกจังหวัด">เลือกจังหวัด</option>
-                      <option value="กระบี่">กระบี่</option>
+	<select class="form-control col-8 m-2"   name="province"  placeholder="เลือกจังหวัด" required>
+		      <option value="กระบี่">กระบี่</option>
                       <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
                       <option value="กาญจนบุรี">กาญจนบุรี</option>
                       <option value="กาฬสินธุ์">กาฬสินธุ์</option>
@@ -101,7 +99,7 @@
                       <option value="อุทัยธานี">อุทัยธานี</option>
                       <option value="อุบลราชธานี">อุบลราชธานี</option>
                       <option value="อำนาจเจริญ">อำนาจเจริญ</option>
-            </datalist>                
+            </select>                
                
 	<label class="col-3 p-2 col-form-label col-form-label-sm">รายการสินค้า</label>
         <input class="form-control col-8 m-2" list="product-list"  name="product"  placeholder="กรอกสินค้า" required>
