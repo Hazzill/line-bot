@@ -6,6 +6,35 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+	 <style>
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      border: 1px solid rgb(117, 117, 117);
+      width: 200px;
+      padding: 5px 2px;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      padding: 12px 16px;
+      z-index: 1;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .dropdown-option {
+      cursor: pointer;
+      padding: 5px 0px;
+      border-bottom: 1px solid #dddddd;
+    }
+    .dropdown-option:hover {
+      background-color: #ddd;
+    }
+  </style>
 </head>
 <body class="bg-light">
     <form class="container" style="padding: 40px;">  
@@ -21,7 +50,17 @@
 	<label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
 	<input class="form-control col-8  m-2" name="customer" placeholder="" required>
 	<label class="col-3 p-2 col-form-label col-form-label-sm">จังหวัด</label>
-	<select class="form-control col-8 m-2"   name="province"  placeholder="เลือกจังหวัด" required>
+
+	<div  class="dropdown">
+      <span id="selectedOption" name="province"  onclick="toggleDropdown()">จังหวัด</span>
+      <div id="dropdownOptions" class="dropdown-content">
+        <div class="dropdown-option" onclick="selectOption('ตัวเลือก 1')">ตัวเลือก 1</div>
+        <div class="dropdown-option" onclick="selectOption('ตัวเลือก 2')">ตัวเลือก 2</div>
+        <div class="dropdown-option" onclick="selectOption('ตัวเลือก 3')">ตัวเลือก 3</div>
+        <div class="dropdown-option" onclick="selectOption('ตัวเลือก 4')">ตัวเลือก 4</div>
+      </div>
+    </div>	
+	 <select class="form-control col-8 m-2"     placeholder="เลือกจังหวัด" required>
 		      <option value=""></option>
 		      <option value="กระบี่">กระบี่</option>
                       <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
@@ -130,7 +169,47 @@
         </div>
         <input type="submit" class="mt-4 btn btn-success" value="บันทึกข้อมูล">
     </form>
+<script>
+    var dropdownOptions = document.getElementById('dropdownOptions');
+    var selectedOption = document.getElementById('selectedOption');
 
+    var dropdownOptions2 = document.getElementById('dropdownOptions2');
+    var selectedOption2 = document.getElementById('selectedOption2');
+
+    function toggleDropdown() {
+      dropdownOptions.style.display = dropdownOptions.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function toggleDropdown2() {
+      dropdownOptions2.style.display = dropdownOptions2.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function selectOption(option) {
+      selectedOption.textContent = option;
+      dropdownOptions.style.display = 'none';
+    }
+
+    function selectOption2(option) {
+      selectedOption2.textContent = option;
+      dropdownOptions2.style.display = 'none';
+    }
+
+    function selectOtherOption() {
+      var userInput = prompt('กรุณากรอกตัวเลือกอื่น ๆ');
+      if (userInput !== null) {
+        selectedOption.textContent = userInput;
+        dropdownOptions.style.display = 'none';
+      }
+    }
+
+    function selectOtherOption2() {
+      var userInput = prompt('กรุณากรอกตัวเลือกอื่น ๆ 2');
+      if (userInput !== null) {
+        selectedOption2.textContent = userInput;
+        dropdownOptions2.style.display = 'none';
+      }
+    }
+  </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
