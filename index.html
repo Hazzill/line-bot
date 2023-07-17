@@ -2,10 +2,22 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gis form-Line </title>
+    <title>Gis form-Line</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    <style>
+        #optionsContainer{
+            width: 100%;
+        }
+        p {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        border: 1px solid teal;
+        }
+    </style>
 </head>
 <body class="bg-light">
     <form class="container" style="padding: 40px;">  
@@ -116,6 +128,19 @@
             <input class="form-control col-3  m-2" type="number" min="0" value="" step=".01" name="price" placeholder="" required>
             <label class="col-2 p-2 col-form-label col-form-label-sm">ส่วนลด</label>
             <input class="form-control col-3  m-2" type="number" min="0" value="0" step=".01"name="disc" placeholder="" >
+        </div>
+        <div class="row p2">
+            <label class="col-2 p-2 col-form-label col-form-label-sm">เครดิต/วัน </label>
+            <select class="form-control col-4 m-2" id="credit" name="credit" required>
+                <option value=""></option>
+                <option value="เงินสด">เงินสด</option>
+                <option value="7 วัน">7 วัน</option>
+                <option value="30 วัน">30 วัน</option>
+                <option value="60 วัน">60 วัน</option>
+                <option value="90 วัน">90 วัน</option>
+              </select>
+        </div>
+        <div class="row p2">
             <label class="col-2 p-2 col-form-label col-form-label-sm">หมายเหตุ</label>
             <textarea class="form-control col-12" name="note" > </textarea>
         </div>
@@ -127,6 +152,12 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script>
+        // สคริปต์ JavaScript เพื่อแสดงกล่องข้อความ pop-up ขณะโหลด
+        window.addEventListener('load', function() {
+          alert('ข้อมูลกำลังโหลด...');
+        });
+      </script>
 	<script>
     // ข้อมูลตัวเลือก
     var options = ['HEPARIN INJ 5000 IU', 'ENACE 5 (10x10)', 'DICLO SR 100', 'AMCARDIA 5', 'AMCARDIA 5', 'OMLEK 20', 'OFTOP 200', 'TENROL 100'];
@@ -143,7 +174,7 @@
       });
 
       matchedOptions.forEach(function(option) {
-        var optionElement = document.createElement('div');
+        var optionElement = document.createElement('p');
         optionElement.innerHTML = option;
         optionElement.addEventListener('click', function() {
           input.value = option;
@@ -153,13 +184,13 @@
       });
     }
     </script>
+
     <script>
 
         $(document).ready(function () {
             const liffId = "1660766925-qDv7zvV5";
             initializeLiff(liffId);
         })
-
         function initializeLiff(liffId) {
             liff.init({
                 liffId: liffId
@@ -169,7 +200,6 @@
                 console.log('LIFF Initialization failed ', err);
             });
         }
-
         function sendText(text) {
             liff.sendMessages([{
                 'type': 'text',
@@ -180,26 +210,25 @@
                 window.alert('Failed to send message ' + error);
             });
         }
-
         const params = (new URL(document.location)).searchParams;
         const key = params.get('key');
 
         $(function () {
             $('form').submit(function () {
-               
-                const name     = $('input[name="SellerID"]').val();
-		const ipo      = $('input[name="ipo"]').val();
-                const customer = $('input[name="customer"]').val();
-		const province = $('input[name="province"]').val();
-                const product  = $('input[name="product"]').val();
-		const quantity = $('input[name="quantity"]').val();
-                const gifs     = $('input[name="gifs"]').val();
-                const price    = $('input[name="price"]').val();
-                const disc     = $('input[name="disc"]').val();
-		const note     = $('textarea[name="note"]').val();
-                const msg      = `${name}\n${ipo}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${note}`;
-                sendText(msg);
-                return false;
+            const name     = $('input[name="SellerID"]').val();
+            const ipo      = $('input[name="ipo"]').val();
+            const customer = $('input[name="customer"]').val();
+            const province = $('input[name="province"]').val();
+            const product  = $('input[name="product"]').val();
+            const quantity = $('input[name="quantity"]').val();
+            const gifs     = $('input[name="gifs"]').val();
+            const price    = $('input[name="price"]').val();
+            const disc     = $('input[name="disc"]').val();
+            const credit   = $('select[name="credit"]').val();
+            const note     = $('textarea[name="note"]').val();
+            const msg      = `${name}\n${ipo}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${credit}\n${note}`;
+            sendText(msg);
+            return false;
             });
         });
 
