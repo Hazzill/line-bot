@@ -147,7 +147,7 @@
             <label class="col-2 p-2 col-form-label col-form-label-sm">หมายเหตุ</label>
             <textarea class="form-control col-12" name="note" > </textarea>
         </div>
-        <input type="submit" id="saveButton" class="mt-4 btn btn-success" value="บันทึกข้อมูล"  onclick="disableButton()">
+        <input type="submit"  class="mt-4 btn btn-success" value="บันทึกข้อมูล" >
     </form>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -155,13 +155,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-    <script>
-        function disableButton() {
-          var button = document.getElementById('saveButton');
-          button.disabled = true;
-          button.value = 'กำลังบันทึกข้อมูล...';
-        }
-      </script>
+   
 	<script>
     // ข้อมูลตัวเลือก
     var options = ['HEPARIN INJ 5000 IU', 'ENACE 5 (10x10)', 'DICLO SR 100', 'AMCARDIA 5', 'AMCARDIA 5', 'OMLEK 20', 'OFTOP 200', 'TENROL 100'];
