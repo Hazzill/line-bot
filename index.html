@@ -41,6 +41,18 @@
             <label class="col-3 p-2 col-form-label col-form-label-sm">เลขใบสั่งซื้อ</label>
             <input class="form-control col-4  m-2" name="ipo" value="-" placeholder="">
         </div>
+	<div class="row p2">
+            <label class="col-3 p-2 col-form-label col-form-label-sm">ประเภทลูกค้า</label>
+            <select class="form-control col-4" name="type2" required>
+                <option class="form-control " value="">เลือก</option>
+                <option class="form-control " value="คลีนิก">คลีนิก</option>
+                <option class="form-control " value="โรงพยาบาล">โรงพยาบาล</option>
+                <option class="form-control " value="โรงพยาบาลเอกชน">โรงพยาบาลเอกชน</option>
+                <option class="form-control " value="ผู้แทนยา">ผู้แทนยา</option>  
+                <option class="form-control " value="ผู้แทนยา">ออนไลน์</option>
+		 <option class="form-control " value="Retained Sample">Retained Sample</option>
+              </select>
+        </div>
         <div class="row">
             <label class="col-3 p-2 col-form-label col-form-label-sm">ลูกค้า</label>
             <input class="form-control col-8  m-2" name="customer" placeholder="" required>
@@ -164,6 +176,7 @@
             $('form').submit(function () {
             const name     = $('input[name="SellerID"]').val();
             const ipo      = $('input[name="ipo"]').val();
+	    const type2    = $('input[name="type2"]').val();
             const customer = $('input[name="customer"]').val();
             const province = $('input[name="province"]').val();
             const product  = $('input[name="product"]').val();
@@ -173,7 +186,7 @@
             const disc     = $('input[name="disc"]').val();
             const credit   = $('select[name="credit"]').val();
             const note     = $('textarea[name="note"]').val();
-            const msg      = `${name}\n${ipo}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${credit}\n${note}`;
+            const msg      = `${name}\n${ipo}\n${type2}\n${customer}\n${province}\n${product}\n${quantity}\n${gifs}\n${price}\n${disc}\n${credit}\n${note}`;
 
             // Check if the data is a duplicate before sending
             if (!localStorage.getItem(msg)) {
