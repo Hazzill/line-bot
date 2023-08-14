@@ -60,7 +60,7 @@
 
 <body>
     <div class="container">
-     <form  method="POST" action="https://script.google.com/macros/s/AKfycbwlEVnk_iVugbXTfEroKaa7dBqzQLkwDtZwy8LzjpMC43GMP8dF7dkDzcYZBYOBm48g/exec">
+     <form  method="POST" action="https://script.google.com/macros/s/AKfycbzxi8AsGuqHKW-Gok6Khu-RJ2na5CRtMGMwj-JfzdGebr4gyXM8bkD740qszqqLeFZq/exec">
             <div class="card">
 
                 <div class="card-body">
@@ -238,29 +238,6 @@ $(function () {
         }
     });
 });
-function sendTextAndCloseLiff(text) {
-    liff.sendMessages([{
-        'type': 'text',
-        'text': text
-    }]).then(function () {
-        console.log('Message sent to LINE');
-        liff.closeWindow(); // ส่งข้อความสำเร็จแล้วปิด LIFF
-    }).catch(function (error) {
-        console.error('Failed to send message to LINE', error);
-    });
-}
-
-$(function () {
-    $('form').submit(function (event) {
-        event.preventDefault();
-        
-        const message = '💊';
-        sendTextAndCloseLiff(message);
-        
-        // ส่วนอื่น ๆ ที่เกี่ยวข้องกับการส่งฟอร์มไปยัง URL จะไม่ถูกเรียกใช้หลังจากส่งข้อความแล้ว
-    });
-});
-
 </script>
 <script>
     function submitForm() {
