@@ -1,18 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> invoice</title>
-    <!-- For Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <style>
          #loading {
             display: none;
         }
-       
         @media (max-width: 767px) {
 
             /* ปรับความกว้างของช่อง Input เพื่อให้มีสเปซเหมาะสม */
@@ -20,14 +18,12 @@
                 width: 50%;
                 margin-right: 5px;
             }
-
             /* ปรับขนาดของปุ่มเพิ่มและลบให้เหมาะสมกับมือถือ */
             .btn-mobile {
                 font-size: 12px;
                 padding: 2px 6px;
             }
         }
-
         /* Additional CSS for Mobile View */
         @media (max-width: 767px) {
             body {
@@ -42,43 +38,115 @@
             input.form-control.text-end {
                 width: 100px;
             }
-
             .table-bordered>:not(caption)>*>* {
             border-width: 0 1px;
             float: left;
             border: none;
             }
- 
         }
     </style>
     <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.2.slim.js"
-        integrity="sha256-OflJKW8Z8amEUuCaflBZJ4GOg4+JnNh9JdVfoV+6biw=" crossorigin="anonymous"></script>
-    <!-- For Invoice  -->
-    <script src="invoice.js"></script>
-</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+<script>
+window.onload = function() {
+    initializeLiff();generateKeyAndDate();
+};
 
+async function initializeLiff() {
+    await liff.init({ liffId: '1660750350-omzRLgP4' }); // Replace with your LIFF ID
+
+    if (liff.isLoggedIn()) {
+        getUserProfile();
+    } else {
+        liff.login();
+    }
+}
+
+async function getUserProfile() {
+    try {
+        const profile = await liff.getProfile();
+        document.getElementById('userId').value = profile.userId;
+    } catch (error) {
+        console.error('Error getting profile data:', error);
+    }
+}
+
+function generateKeyAndDate() {
+    var key = Math.random().toString(36).substring(7);
+    document.getElementById("keyInput").value = key;
+
+    var currentDate = new Date();
+    var year = currentDate.getFullYear();
+    var month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    var day = String(currentDate.getDate()).padStart(2, '0');
+    var formattedDate = `${year}-${month}-${day}`;
+    
+    document.getElementById("dateInput").value = formattedDate;
+}
+
+function sendText(text, callback) {
+    liff.sendMessages([{
+        'type': 'text',
+        'text': text
+    }]).then(function () {
+        console.log('Message sent to LINE');
+        if (typeof callback === 'function') {
+            callback();
+        }
+    }).catch(function (error) {
+        console.error('Failed to send message to LINE', error);
+    });
+}
+
+$(function () {
+    var formSubmitted = false;
+
+    $('form').submit(function (event) {
+        event.preventDefault();
+
+        if (!formSubmitted) {
+            const message = 'ออเดอร์มาแล้วจ้า';
+            sendText(message, function () {
+                console.log('Sending form after LINE message');
+                formSubmitted = true;
+                $('form')[0].submit();
+            });
+        }
+    });
+});
+</script>
+
+</head>
 <body>
     <div class="container">
-     <form  method="POST" action="https://script.google.com/macros/s/AKfycbzxi8AsGuqHKW-Gok6Khu-RJ2na5CRtMGMwj-JfzdGebr4gyXM8bkD740qszqqLeFZq/exec">
+    <form  method="POST" action="https://script.google.com/macros/s/AKfycbwEDRalcvh3kexgT5gSZKV9e6Tiq-mLua_GQI79YYj0PDmojdp1GHTlfeIOFDBYkT4B/exec">
             <div class="card">
-
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-8">
-                            <div class="input-group mb-3" style="display: none;">
+                    <div class="col-md-8">
+						  <div class="input-group mb-4" style="display: none;">
                                 <span class="input-group-text">OderID</span>
-                                <input type="text" id="keyInput" name="order_id" readonly>
+                                <input type="text" id="keyInput" name="order_id" >
                             </div>
+						  <div class="input-group mb-4" style="display: none;">
+                                <span class="input-group-text">UserID</span>
+                                <input type="text" id="userId" name="userId" >
+                            </div>
+						    <div class="input-group mb-4">
+                                <span class="input-group-text">วันที่สั่งซื้อ</span>
+                                 <input type="date" id="dateInput" name="dateInput">
+                            </div>
+						   	 
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="รหัสผู้ขาย" name="user_id"
+                            <div class="input-group mb-4">
+                                <input type="text" class="form-control" placeholder="รหัสผู้ขาย" name="sell_id"
                                     required>
                             </div>
-                            <div class="input-group mb-3">
+						  <div class="input-group mb-4">
                                 <select type="text" class="form-control" placeholder="ประเภทลูกค้า" name="category"
                                     required>
                                     <option value="">เลือกประเภท</option>
@@ -90,13 +158,12 @@
                                     <option value="ออนไลน์">ออนไลน์</option>
                                 </select>
                             </div>
-
                         </div>
                         <div class="col-6">
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-4">
                                 <input type="text" class="form-control" placeholder="เลขใบสั่งซื้อ" name="ipo">
                             </div>
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-4">
                                 <select type="text" class="form-control" id="provinces" placeholder="จังหวัด"
                                     name="city" required>
                                     <option value="" disabled selected hidden>เลือกจังหวัด</option>
@@ -105,7 +172,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-4">
                             <input type="text" class="form-control" placeholder="ลูกค้า" name="cust_nm" required>
                         </div>
 
@@ -153,23 +220,23 @@
 
                     <div class="row" style="margin-bottom: 300px;">
                         <div class="col-md-4">
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-4">
                                 <span class="input-group-text">ทั้งหมด</span>
                                 <input type="number" class="form-control text-end" id="FTotal" name="FTotal"
                                     disabled="">
                             </div>
-                            <div class="input-group mb-3" style="display:none">
+                            <div class="input-group mb-4" style="display:none">
                                 <span class="input-group-text">ภาษี</span>
                                 <input type="number" class="form-control text-end" id="FGST" name="FGST"
                                     onchange="GetTotal()">
                             </div>
-                            <div class="input-group mb-3" style="display:none">
+                            <div class="input-group mb-4" style="display:none">
                                 <span class="input-group-text">ยอดเงินสุทธิ</span>
                                 <input type="number" class="form-control text-end" id="FNet" name="FNet" disabled="">
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-4">
                                 <textarea type="text" class="form-control" placeholder="หมายเหตุ"
                                     name="note"></textarea>
                             </div>
@@ -184,61 +251,12 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-           
+            </div>        
         </form>
-    </body>
-</html>
-<script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-<script>
-            $(document).ready(function () {
-    const liffId = "1660750350-omzRLgP4";
-    initializeLiff(liffId);
-});
+    </div>
+	
 
-function initializeLiff(liffId) {
-    liff.init({
-        liffId: liffId
-    }).then(() => {
-        initializeApp();
-    }).catch((err) => {
-        console.log('LIFF Initialization failed ', err);
-    });
-}
-
-function sendText(text, callback) {
-    liff.sendMessages([{
-        'type': 'text',
-        'text': text
-    }]).then(function () {
-        console.log('Message sent to LINE');
-        if (typeof callback === 'function') {
-            callback(); // เรียกฟังก์ชัน callback หากมีการส่งข้อความสำเร็จ
-        }
-    }).catch(function (error) {
-        console.error('Failed to send message to LINE', error);
-    });
-}
-
-$(function () {
-    var formSubmitted = false; // เพิ่มตัวแปรเพื่อตรวจสอบว่าฟอร์มได้ถูกส่งไปแล้วหรือยัง
-
-    $('form').submit(function (event) {
-        event.preventDefault(); // ป้องกันการส่งฟอร์มโดยปกติ
-
-        if (!formSubmitted) { // ตรวจสอบว่ายังไม่ได้ส่งฟอร์ม
-            const message = 'ออเดอร์มาแล้วจ้า';
-            sendText(message, function () {
-                console.log('Sending form after LINE message');
-                formSubmitted = true; // กำหนดให้ฟอร์มถูกส่งแล้ว
-                $('form')[0].submit();
-            });
-        }
-    });
-});
-</script>
 <script>
     function submitForm() {
         // แสดงหน้าโหลด
@@ -254,90 +272,77 @@ $(function () {
         }, 3000);
     }
 </script>
-
-<script>
-    function generateKey() {
-        var key = Math.random().toString(36).substring(7);
-        document.getElementById("keyInput").value = key;
-    }
-
-    window.onload = generateKey; // เรียกใช้ generateKey() เมื่อหน้าเว็บโหลดเสร็จสมบูรณ์
-</script>
-<script>
-    function BtnAdd() {
-        /*Add Button*/
-        var v = $("#TRow").clone().appendTo("#TBody");
-        $(v).find("input").val('');
-        $(v).removeClass("d-none");
-        $(v).find("th").first().html($('#TBody tr').length - 1);
-    }
-
-    function BtnDel(v) {
-        /*Delete Button*/
-        $(v).parent().parent().remove();
-        GetTotal();
-
-        $("#TBody").find("tr").each(function (index) {
-            $(this).find("th").first().html(index);
-        });
-    }
-
-    function Calc(v) {
-        /*Detail Calculation Each Row*/
-        var index = $(v).parent().parent().index();
-        var qty = document.getElementsByName("qty")[index].value;
-        var rate = document.getElementsByName("rate")[index].value;
-
-        var amt = qty * rate;
-        document.getElementsByName("amt")[index].value = amt;
-
-        GetTotal();
-    }
-
-    function GetTotal() {
-        /*Footer Calculation*/
-        var sum = 0;
-        var amts = document.getElementsByName("amt");
-
-        for (let index = 0; index < amts.length; index++) {
-            var amt = amts[index].value;
-            sum = parseFloat(sum) + parseFloat(amt);
+    <script>
+        function BtnAdd() {
+            /*Add Button*/
+            var v = $("#TRow").clone().appendTo("#TBody");
+            $(v).find("input").val('');
+            $(v).removeClass("d-none");
+            $(v).find("th").first().html($('#TBody tr').length - 1);
         }
-
-        document.getElementById("FTotal").value = sum;
-
-        var gst = document.getElementById("FGST").value;
-        var net = parseFloat(sum) + parseFloat(gst);
-        document.getElementById("FNet").value = net;
-    }
-</script>
-
-<script>
-    var provinces = [
-        "กรุงเทพมหานคร", "สมุทรปราการ", "นนทบุรี", "ปทุมธานี", "พระนครศรีอยุธยา", "อ่างทอง", "ลพบุรี", "สิงห์บุรี", "ชัยนาท", "สระบุรี",
-        "ชลบุรี", "ระยอง", "จันทบุรี", "ตราด", "ฉะเชิงเทรา", "ปราจีนบุรี", "นครนายก", "สระแก้ว", "นครราชสีมา", "บุรีรัมย์",
-        "สุรินทร์", "ศรีสะเกษ", "อุบลราชธานี", "ยโสธร", "ชัยภูมิ", "อำนาจเจริญ", "หนองบัวลำภู", "ขอนแก่น", "อุดรธานี",
-        "เลย", "หนองคาย", "มหาสารคาม", "ร้อยเอ็ด", "กาฬสินธุ์", "สกลนคร", "นครพนม", "มุกดาหาร", "เชียงใหม่", "ลำพูน",
-        "ลำปาง", "อุตรดิตถ์", "แพร่", "น่าน", "พะเยา", "เชียงราย", "แม่ฮ่องสอน", "นครสวรรค์", "อุทัยธานี", "กำแพงเพชร",
-        "ตาก", "สุโขทัย", "พิษณุโลก", "พิจิตร", "เพชรบูรณ์", "ราชบุรี", "กาญจนบุรี", "สุพรรณบุรี", "นครปฐม", "สมุทรสาคร",
-        "สมุทรสงคราม", "เพชรบุรี", "ประจวบคีรีขันธ์", "นครศรีธรรมราช", "กระบี่", "พังงา", "ภูเก็ต", "สุราษฎร์ธานี", "ระนอง",
-        "ชุมพร", "สงขลา", "สตูล", "ตรัง", "พัทลุง", "ปัตตานี", "ยะลา", "นราธิวาส"
-    ];
-
-    var select = document.getElementById("provinces");
-
-    for (var i = 0; i < provinces.length; i++) {
-        var option = document.createElement("option");
-        option.value = provinces[i];
-        option.text = provinces[i];
-        select.appendChild(option);
-    }
-</script>
-
-<!-- Bootstrap Bundle JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    
+        function BtnDel(v) {
+            /*Delete Button*/
+            $(v).parent().parent().remove();
+            GetTotal();
+    
+            $("#TBody").find("tr").each(function (index) {
+                $(this).find("th").first().html(index);
+            });
+        }
+    
+        function Calc(v) {
+            /*Detail Calculation Each Row*/
+            var index = $(v).parent().parent().index();
+            var qty = document.getElementsByName("qty")[index].value;
+            var rate = document.getElementsByName("rate")[index].value;
+    
+            var amt = qty * rate;
+            document.getElementsByName("amt")[index].value = amt;
+    
+            GetTotal();
+        }
+    
+        function GetTotal() {
+            /*Footer Calculation*/
+            var sum = 0;
+            var amts = document.getElementsByName("amt");
+    
+            for (let index = 0; index < amts.length; index++) {
+                var amt = amts[index].value;
+                sum = parseFloat(sum) + parseFloat(amt);
+            }
+    
+            document.getElementById("FTotal").value = sum;
+    
+            var gst = document.getElementById("FGST").value;
+            var net = parseFloat(sum) + parseFloat(gst);
+            document.getElementById("FNet").value = net;
+        }
+    </script>
+    <script>
+        var provinces = [
+            "กรุงเทพมหานคร", "สมุทรปราการ", "นนทบุรี", "ปทุมธานี", "พระนครศรีอยุธยา", "อ่างทอง", "ลพบุรี", "สิงห์บุรี", "ชัยนาท", "สระบุรี",
+            "ชลบุรี", "ระยอง", "จันทบุรี", "ตราด", "ฉะเชิงเทรา", "ปราจีนบุรี", "นครนายก", "สระแก้ว", "นครราชสีมา", "บุรีรัมย์",
+            "สุรินทร์", "ศรีสะเกษ", "อุบลราชธานี", "ยโสธร", "ชัยภูมิ", "อำนาจเจริญ", "หนองบัวลำภู", "ขอนแก่น", "อุดรธานี",
+            "เลย", "หนองคาย", "มหาสารคาม", "ร้อยเอ็ด", "กาฬสินธุ์", "สกลนคร", "นครพนม", "มุกดาหาร", "เชียงใหม่", "ลำพูน",
+            "ลำปาง", "อุตรดิตถ์", "แพร่", "น่าน", "พะเยา", "เชียงราย", "แม่ฮ่องสอน", "นครสวรรค์", "อุทัยธานี", "กำแพงเพชร",
+            "ตาก", "สุโขทัย", "พิษณุโลก", "พิจิตร", "เพชรบูรณ์", "ราชบุรี", "กาญจนบุรี", "สุพรรณบุรี", "นครปฐม", "สมุทรสาคร",
+            "สมุทรสงคราม", "เพชรบุรี", "ประจวบคีรีขันธ์", "นครศรีธรรมราช", "กระบี่", "พังงา", "ภูเก็ต", "สุราษฎร์ธานี", "ระนอง",
+            "ชุมพร", "สงขลา", "สตูล", "ตรัง", "พัทลุง", "ปัตตานี", "ยะลา", "นราธิวาส"
+        ];
+    
+        var select = document.getElementById("provinces");
+    
+        for (var i = 0; i < provinces.length; i++) {
+            var option = document.createElement("option");
+            option.value = provinces[i];
+            option.text = provinces[i];
+            select.appendChild(option);
+        }
+    </script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
 </body>
-
 </html>
